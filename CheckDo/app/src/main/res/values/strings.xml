@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">CheckDo</string>
+
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">SIGN IN</string>
+    <string name="action_register">REGISTER</string>
+    <string name="action_link_to_register">Need an account? Sign up now</string>
+    <string name="action_google_login">Login With Google</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="welcome">Welcome</string>
+    <string name="action_logout">LOGOUT</string>
+    <string name="prompt_fullname">Fullname</string>
+
+    <string name="action_google_register">Register with Google</string>
+    <string name="title_activity_notes">NotesActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
