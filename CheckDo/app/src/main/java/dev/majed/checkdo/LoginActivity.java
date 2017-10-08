@@ -2,10 +2,9 @@ package dev.majed.checkdo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -33,9 +32,10 @@ public class LoginActivity extends AppCompatActivity  implements
     // UI references.
     private EditText mEmailView;
     private EditText mPasswordView;
+    Button mEmailSignInButton;
+    Button forgotPassWord;
 
-
-    private GoogleApiClient mGoogleApiClient;
+    static GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,19 +45,18 @@ public class LoginActivity extends AppCompatActivity  implements
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
 
-
         // Configure SignIn
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
         // Build Sign in
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+        LoginActivity.mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,7 +64,7 @@ public class LoginActivity extends AppCompatActivity  implements
             }
         });
 
-        Button mSignUpButton = (Button) findViewById(R.id.register);
+        final Button mSignUpButton = (Button) findViewById(R.id.register);
         mSignUpButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +82,32 @@ public class LoginActivity extends AppCompatActivity  implements
                 logInWithGoogle();
             }
         });
+        forgotPassWord=(Button)findViewById(R.id.forgotPassword);
+        forgotPassWord.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String email=mEmailView.getText().toString();
+                HashMap<String, User> userHashMap = RegisterActivity.readUsersMap(getApplicationContext());
+                if (!userHashMap.containsKey(email)) {
+                    Toast.makeText(getApplicationContext(), "Sorry, you are not registered. Please create an account first !!!", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    mPasswordView.setText("");
+                  String Password=  userHashMap.get(email).getPassword();
+
+                    Toast.makeText(LoginActivity.this, "Your password has been sent to your registered Email.", Toast.LENGTH_SHORT).show();
+                    Mail sm = new Mail(v.getContext(), email, "Password Recovery", "Your Password is : "+Password);
+
+                     sm.execute();
+                }
+
+
+            }
+
+        });
+
     }
 
     final int GOOGLE_SIGN_IN = 119;
@@ -90,11 +115,8 @@ public class LoginActivity extends AppCompatActivity  implements
         Log.d("CHECKDO", "In log in with google method");
 
 
-
-
-
         //  Prompts the user to select a Google account to sign in with
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(LoginActivity.mGoogleApiClient);
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
     }
 
@@ -211,5 +233,6 @@ public class LoginActivity extends AppCompatActivity  implements
         Toast.makeText(this, "Failed to connect to Google.", Toast.LENGTH_SHORT).show();
         Log.d("CHECKDO", "Failed connection to google.");
     }
+
 }
 

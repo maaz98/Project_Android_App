@@ -1,10 +1,9 @@
 package dev.majed.checkdo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -13,15 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.util.Map;
+
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -32,8 +29,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mNameView;
 
 
-    private HashMap<String, User> userMap;
-    private String email;
+    private static HashMap<String, User> userMap;
+    private static String email;
     private String password;
     private String name;
 
@@ -128,8 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "User Already Registered!!", Toast.LENGTH_LONG).show();
             Log.i("dee", "User already registered");
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -147,14 +143,12 @@ public class RegisterActivity extends AppCompatActivity {
 
             ByteArrayInputStream byteInputStream = new ByteArrayInputStream(rawUserMap);
             ObjectInputStream objectInputStream = new ObjectInputStream(byteInputStream);
-            return (HashMap<String, User>)objectInputStream.readObject();
-        }
-        catch (IOException | ClassNotFoundException e) {
+            return (HashMap<String, User>) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
             Log.e("CHECKDO", e.getMessage());
             return null;
         }
     }
-
 
 
     public static void storeUserMap(HashMap<String, User> userHashMap, Context mContext) {
@@ -169,8 +163,7 @@ public class RegisterActivity extends AppCompatActivity {
             editor.putString("usersMap", userMapRaw);
             editor.apply();
             Log.i("dee", "User map raw: " + userMapRaw);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Log.e("CHECKDO", e.getMessage());
         }
     }
@@ -180,6 +173,15 @@ public class RegisterActivity extends AppCompatActivity {
         storeUserMap(userMap, getApplicationContext());
         Log.i("dee", "User registered successfully with: " + name + ", email: " + email + "password: " + password);
         Toast.makeText(getApplicationContext(), "User registered successfully!!!", Toast.LENGTH_SHORT).show();
-        finish();
+        sendWelcomeMail(email);
+       finish();
+    }
+
+    private void sendWelcomeMail(String emailId) {
+
+        Mail sm = new Mail(this, emailId, "welcome", "Welcome mail");
+
+        //Executing sendmail to send email
+        sm.execute();
     }
 }
