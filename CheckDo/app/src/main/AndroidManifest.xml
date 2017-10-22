@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.READ_PROFILE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -18,7 +18,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name">
+            android:label="CheckDo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -27,11 +27,23 @@
         </activity>
         <activity
             android:name=".NotesActivity"
-            android:label="@string/title_activity_notes"
+            android:label="My Lists"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".RegisterActivity"/>
-        <activity android:name=".UserProfile"
-                  android:label="Profile">
+        <activity
+            android:name=".UserProfile"
+            android:label="Profile">
+        </activity>
+        <activity
+            android:name=".CreateAList"
+            android:label="My Lists"
+            android:theme="@style/AppTheme.NoActionBar">
+
+    </activity>
+        <activity
+            android:name=".AllListUI"
+            android:label="@string/title_activity_all_list_ui"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

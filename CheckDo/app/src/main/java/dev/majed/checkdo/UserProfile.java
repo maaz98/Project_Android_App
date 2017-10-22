@@ -87,9 +87,6 @@ public class UserProfile extends AppCompatActivity {
         if (userMap == null) {
             userMap = readUsersMap(getApplicationContext());
         }
-
-
-
         changePassWord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,12 +132,13 @@ public class UserProfile extends AppCompatActivity {
         if(email.contains("@gmail.com")){
         String url = "http://picasaweb.google.com/data/entry/api/user/"+email.replace("@gmail.com","")+"?alt=json";
          String data = getJSON(url,100000);
-        try {
+        try {if(data==null){}
+            else{
             JSONObject jsonObject = new JSONObject(data);
            JSONObject object = jsonObject.getJSONObject("entry").getJSONObject("gphoto$thumbnail");
             ImageUrl = object.getString("$t");
 
-        } catch (JSONException e) {
+        }} catch (JSONException e) {
             e.printStackTrace();
         }
 

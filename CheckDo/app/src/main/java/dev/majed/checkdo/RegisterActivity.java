@@ -17,10 +17,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashMap;
 
-
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements Serializable {
 
 
     // UI references.
@@ -47,9 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         email = "";
         password = "";
         name = "";
-
         userMap = null;
-
         Button btnRegister = (Button) findViewById(R.id.btnRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,9 +59,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
 
     private boolean validateInput() {
         // Reset errors.
@@ -152,6 +148,9 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     public static void storeUserMap(HashMap<String, User> userHashMap, Context mContext) {
+
+
+
         SharedPreferences preferences = mContext.getSharedPreferences("CHECKDO", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 

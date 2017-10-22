@@ -1,53 +1,100 @@
 package dev.majed.checkdo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.util.ArrayList;
+
 public class NotesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         GoogleApiClient.OnConnectionFailedListener {
-    private GoogleApiClient mGoogleApiClient;
-    private String email;
+
+    public static String email;
     private String name;
-    private String auth;
+
     TextView tv_name;
     TextView tv_email;
+
+    public static AlertDialog ad;
+    public static Adapter adapter;
+    EditText input;
+    public static SuperList superList;
+
+     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
+
         tv_name = (TextView) header.findViewById(R.id.name);
         tv_email = (TextView) header.findViewById(R.id.email);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+
+         superList=new SuperList(this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add new list");
+        input=new EditText(this);
+        input.setHint("Title");
+        builder.setView(input);
+
+        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(DialogInterface dialog, int which) {
+                String text = input.getText().toString();
+                if (text.trim().length() <= 0) {
+                    Toast.makeText(NotesActivity.this, "invalid name", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    ArrayList<SingleEntry> stringList = new ArrayList<>();
+                     MyList myList = new MyList(stringList, text);
+                    superList.Add(myList);
+                    input.setText("");
+                }
+                if(adapter!=null){ }
+                   adapter.notifyDataSetChanged();
+
             }
         });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        ad = builder.create();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -57,28 +104,31 @@ public class NotesActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-      //  TextView emailTextView = (TextView) findViewById(R.id.emailTextView);
-       // TextView nameTextView = (TextView) findViewById(R.id.nameTextView);
 
         SharedPreferences preferences = getSharedPreferences("CHECKDO", MODE_PRIVATE);
-       // nameTextView.setText(preferences.getString("loggedUser", ""));
-       // emailTextView.setText(preferences.getString("loggedEmail", ""));
 
         name = preferences.getString("loggedUser", "");
         email = preferences.getString("loggedEmail", "");
         tv_email.setText(email);
         tv_name.setText(name);
-    }
 
+        Fragment fragment= new MainFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.flContent, fragment);
+        transaction.commit();
+        if(getIntent().getStringExtra("keyTo").compareTo("firstOpen")==0){
+            Intent intent = new Intent(this,AllListUI.class);
+            startActivity(intent);
+        }
+     }
+
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-
-
-        }
+        } else {}
     }
 
     @Override
@@ -104,6 +154,7 @@ public class NotesActivity extends AppCompatActivity
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -124,6 +175,7 @@ public class NotesActivity extends AppCompatActivity
 
         }
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -135,7 +187,6 @@ public class NotesActivity extends AppCompatActivity
     }
 
     public void moveToUserProfile() {
-
         Intent intent = new Intent(this, UserProfile.class);  // intent to user Profile
         intent.putExtra("email", email);
         intent.putExtra("name", name);

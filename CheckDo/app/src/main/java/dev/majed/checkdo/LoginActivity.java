@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity  implements
                     mPasswordView.setText("");
                   String Password=  userHashMap.get(email).getPassword();
 
-                    Toast.makeText(LoginActivity.this, "Your password has been sent to your registered Email.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Your password has bees sent to your registered Email.", Toast.LENGTH_SHORT).show();
                     Mail sm = new Mail(v.getContext(), email, "Password Recovery", "Your Password is : "+Password);
 
                      sm.execute();
@@ -225,6 +225,7 @@ public class LoginActivity extends AppCompatActivity  implements
     private void redirectAfterLogin() {
         Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("keyTo","firstOpen");
         startActivity(intent);
     }
 
