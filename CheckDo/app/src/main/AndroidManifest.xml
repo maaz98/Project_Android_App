@@ -38,13 +38,13 @@
             android:name=".CreateAList"
             android:label="My Lists"
             android:theme="@style/AppTheme.NoActionBar">
-
-    </activity>
+        </activity>
         <activity
             android:name=".AllListUI"
             android:label="@string/title_activity_all_list_ui"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
     </application>
 
 </manifest>

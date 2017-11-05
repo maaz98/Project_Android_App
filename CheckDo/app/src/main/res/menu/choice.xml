@@ -7,6 +7,10 @@
         android:orderInCategory="100"
         android:title="Sort by : Time"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/clear"
+        android:orderInCategory="100"
+        android:title="Clear completed"
+        app:showAsAction="never" />
 
 </menu>

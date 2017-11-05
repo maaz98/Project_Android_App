@@ -2,21 +2,20 @@ package dev.majed.checkdo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MyList implements Serializable {
     int numberOfItems;
     ArrayList<SingleEntry> itemList;
+    String listName;
 
-    String itemName;
-
-    public MyList( ArrayList<SingleEntry> itemList, String itemName) {
+    public MyList( ArrayList<SingleEntry> itemList, String listName) {
         this.numberOfItems = itemList.size();
         this.itemList = itemList;
-        this.itemName = itemName;
+        this.listName = listName;
 
     }
+
 
     public int getNumberOfItems() {
         return itemList.size();
@@ -24,7 +23,7 @@ public class MyList implements Serializable {
 
 
 
-    public List<SingleEntry> getItemList() {
+    public ArrayList<SingleEntry> getItemList() {
         return itemList;
     }
 
@@ -33,10 +32,10 @@ public class MyList implements Serializable {
     }
 
     public String getItemName() {
-        return itemName;
+        return listName;
     }
 
     public void setItemName(String itemName) {
-        this.itemName = itemName;
+        this.listName = itemName;
     }
 }

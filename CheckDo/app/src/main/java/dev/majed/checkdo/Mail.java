@@ -27,7 +27,7 @@ public class Mail extends AsyncTask<Void,Void,Void> {
     private String subject;
     private String message;
 
-    //Progressdialog to show while sending email
+    //Progress dialog to show while sending email
     private ProgressDialog progressDialog;
 
     //Class Constructor

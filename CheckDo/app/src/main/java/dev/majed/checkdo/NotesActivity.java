@@ -1,32 +1,27 @@
 package dev.majed.checkdo;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-
-import java.util.ArrayList;
 
 public class NotesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -37,11 +32,9 @@ public class NotesActivity extends AppCompatActivity
 
     TextView tv_name;
     TextView tv_email;
-
-    public static AlertDialog ad;
-    public static Adapter adapter;
-    EditText input;
-    public static SuperList superList;
+    private TextView mTextMessage;
+    FragmentTransaction transaction;
+    Fragment fragment;
 
      @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
 
@@ -55,45 +48,14 @@ public class NotesActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
+        mTextMessage = (TextView) findViewById(R.id.message);
 
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         tv_name = (TextView) header.findViewById(R.id.name);
         tv_email = (TextView) header.findViewById(R.id.email);
 
-         superList=new SuperList(this);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Add new list");
-        input=new EditText(this);
-        input.setHint("Title");
-        builder.setView(input);
-
-        builder.setPositiveButton("Create", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String text = input.getText().toString();
-                if (text.trim().length() <= 0) {
-                    Toast.makeText(NotesActivity.this, "invalid name", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    ArrayList<SingleEntry> stringList = new ArrayList<>();
-                     MyList myList = new MyList(stringList, text);
-                    superList.Add(myList);
-                    input.setText("");
-                }
-                if(adapter!=null){ }
-                   adapter.notifyDataSetChanged();
-
-            }
-        });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        ad = builder.create();
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -112,15 +74,46 @@ public class NotesActivity extends AppCompatActivity
         tv_email.setText(email);
         tv_name.setText(name);
 
-        Fragment fragment= new MainFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        fragment= new MainFragment();
+        transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flContent, fragment);
         transaction.commit();
         if(getIntent().getStringExtra("keyTo").compareTo("firstOpen")==0){
             Intent intent = new Intent(this,AllListUI.class);
             startActivity(intent);
         }
+ /*    ArrayList<SingleEntry> thisList=  makeCalenderlist();*/
+      /*   Log.e("SortedData",thisList.toString());*/
+
+
+
+      /*   MainData mainData = new MainData(this);
+         SingleEntry singleEntry = new SingleEntry("listElement 1",(long)123,(long)123);
+         ArrayList<SingleEntry> array =new ArrayList<>();
+         array.add(singleEntry);
+         MyList myList = new MyList(array,"MyTestListNew");
+         allArrayList.add(myList);
+         mainData.save();
+
+     Log.e("size",String.valueOf(allArrayList.size()));*/
+
      }
+
+   /* private ArrayList<SingleEntry> makeCalenderlist() {
+         ArrayList<SingleEntry> list =  new ArrayList<>();
+         for(int i=0;i<superList.arrayList.size();i++){
+             for(int j=0;j<superList.arrayList.get(i).getItemList().size();j++){
+                 list.add(superList.arrayList.get(i).getItemList().get(j));
+             }
+         }
+        Collections.sort(list, new Comparator<SingleEntry>() {
+            @Override
+            public int compare(SingleEntry singleEntry, SingleEntry t1) {
+                return singleEntry.getTaskTime().compareTo(t1.getTaskTime());
+            }
+        });
+        return list;
+    }*/
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
@@ -192,4 +185,35 @@ public class NotesActivity extends AppCompatActivity
         intent.putExtra("name", name);
         startActivity(intent);
     }
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+
+                case R.id.navigation_home:
+
+                     fragment= new MainFragment();
+                     transaction = getSupportFragmentManager().beginTransaction();
+                     transaction.replace(R.id.flContent, fragment);
+                     transaction.commit();
+                     return true;
+
+                case R.id.navigation_dashboard:
+
+                      fragment= new CalenderFragment();
+                      transaction = getSupportFragmentManager().beginTransaction();
+                      transaction.replace(R.id.flContent, fragment);
+                      transaction.commit();
+                     return true;
+
+                case R.id.navigation_notifications:
+                  //  mTextMessage.setText(R.string.title_notifications);
+                    return true;
+            }
+            return false;
+        }
+
+    };
 }

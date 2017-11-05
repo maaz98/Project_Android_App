@@ -2,8 +2,9 @@ package dev.majed.checkdo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,8 +23,10 @@ import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.util.ArrayList;
 
-public class AllListUI extends AppCompatActivity {
+import static dev.majed.checkdo.MainData.allArrayList;
 
+
+public class AllListUI extends AppCompatActivity {
     String Title;
     static int index;
     TextView listTitle;
@@ -32,7 +35,7 @@ public class AllListUI extends AppCompatActivity {
     static ExpandableListView expandableListView;
     FloatingActionButton fab;
     SlidingLayer slidingLayer;
-    private CoordinatorLayout coordinatorLayout;
+
 
 
     static TaskAdapter tadp;
@@ -40,6 +43,7 @@ public class AllListUI extends AppCompatActivity {
     Button button;
     boolean isTimeSorted = false;
     public static Context ctx;
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,21 +64,19 @@ public class AllListUI extends AppCompatActivity {
         fab=(FloatingActionButton)findViewById(R.id.floatingActionButton);
         slidingLayer=(SlidingLayer)findViewById(R.id.slidingLayer);
         editText=(EditText)findViewById(R.id.editText);
-        coordinatorLayout=(CoordinatorLayout)findViewById(R.id.coordinateLayout);
-        ArrayList<SingleEntry> AllList=new ArrayList();
+         ArrayList<SingleEntry> AllList=new ArrayList();
 
-        for(int i=0;i<NotesActivity.superList.arrayList.size();i++){
-            for (int j=0;j<NotesActivity.superList.arrayList.get(i).getItemList().size();j++)
-            {            AllList.add(NotesActivity.superList.arrayList.get(i).getItemList().get(j));
-            }
-        }
-
+        for(int j=0;j< allArrayList.size();j++){
+        for(int i=0;i< allArrayList.get(j).getItemList().size();i++){
+                        AllList.add(allArrayList.get(j).getItemList().get(i));
+        }}
 
         tadp = new TaskAdapter(AllList,9999);
         listView.setAdapter(tadp);
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         listView.setLayoutManager(linearLayoutManager);
-Log.e("allList",String.valueOf(AllList));
+
+        Log.e("allList",String.valueOf(AllList));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

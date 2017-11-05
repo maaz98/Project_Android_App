@@ -23,9 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.HashMap;
 
-/**
- * A login screen that offers login via email/password.
- */
+
 public class LoginActivity extends AppCompatActivity  implements
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -44,6 +42,8 @@ public class LoginActivity extends AppCompatActivity  implements
         // Set up the login form.
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
+
+        MainData mainData = new MainData(getApplicationContext());
 
         // Configure SignIn
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -107,6 +107,10 @@ public class LoginActivity extends AppCompatActivity  implements
             }
 
         });
+
+      /*  mEmailView.setText("q@q.com");
+        mPasswordView.setText("123456789");
+        mEmailSignInButton.performClick();*/
 
     }
 
