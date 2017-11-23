@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -34,6 +36,8 @@ public class RegisterActivity extends AppCompatActivity implements Serializable 
     private String password;
     private String name;
 
+    private String emailStr;
+    private String passwordStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,26 @@ public class RegisterActivity extends AppCompatActivity implements Serializable 
                 }
             }
         });
+    emailStr = config.EMAIL;
+    passwordStr = config.PASSWORD;
     }
+
+        /*final DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
+        mRef.child("data").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                emailStr = dataSnapshot.child("email").getValue().toString();
+                passwordStr = dataSnapshot.child("password").getValue().toString();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }*/
 
     private boolean validateInput() {
         // Reset errors.
@@ -178,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity implements Serializable 
 
     private void sendWelcomeMail(String emailId) {
 
-        Mail sm = new Mail(this, emailId, "welcome", "Welcome mail");
+        Mail sm = new Mail(this, emailId, "welcome", "Welcome mail",emailStr,passwordStr);
 
         //Executing sendmail to send email
         sm.execute();

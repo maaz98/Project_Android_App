@@ -15,9 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -52,6 +50,7 @@ public class UserProfile extends AppCompatActivity {
     private String name;
     private String authType;
     String ImageUrl;
+    FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +76,8 @@ public class UserProfile extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(LoginActivity.mGoogleApiClient.isConnected()){
+       mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null){
             // make update password and delete account invisible if the user is logged in through Gmail.
             changePassWord.setVisibility(View.INVISIBLE);
             DeleteAccount.setVisibility(View.INVISIBLE);
@@ -148,15 +148,10 @@ public class UserProfile extends AppCompatActivity {
     }}
 
     private void logout() {
-        if(LoginActivity.mGoogleApiClient.isConnected()){
-            Auth.GoogleSignInApi.signOut(LoginActivity.mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        // [END_EXCLUDE]
-                    }
-                });}
+        if(mAuth.getCurrentUser()!=null){
+            mAuth.signOut();
+
+        }
         SharedPreferences.Editor editor = getSharedPreferences("CHECKDO", MODE_PRIVATE).edit();
         editor.putBoolean("isLoggedIn", false);
         editor.apply();

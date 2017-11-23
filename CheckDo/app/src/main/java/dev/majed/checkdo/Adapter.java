@@ -64,9 +64,9 @@ public class Adapter extends
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ctx, AllListUI.class);
+                Intent intent = new Intent(ctx, CreateAList.class);
                 intent.putExtra("title", "ALL");
-                intent.putExtra("index", position);
+                intent.putExtra("index", 9999);
                 ctx.startActivity(intent);
             }
         });
@@ -85,10 +85,18 @@ public class Adapter extends
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO:uncomment this.
                 Intent intent = new Intent(ctx, CreateAList.class);
                 intent.putExtra("title", mData.get(position-1).getItemName());
                 intent.putExtra("index", position-1);
                 ctx.startActivity(intent);
+               //
+/*
+                Intent intent = new Intent(ctx, ListUI.class);
+                intent.putExtra("ListID",mData.get(position-1).getListID());
+                ctx.startActivity(intent);*/
+
+                //
             }
         });
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +108,7 @@ public class Adapter extends
                 recyclerView.setAdapter(addp);
             }
         });
+
     }
 }
 

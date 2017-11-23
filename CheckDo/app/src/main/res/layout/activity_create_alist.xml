@@ -11,6 +11,7 @@
     android:orientation="vertical"
     tools:context="dev.majed.checkdo.CreateAList">
 
+
     <com.wunderlist.slidinglayer.SlidingLayer
         android:id="@+id/slidingLayer"
         android:layout_width="fill_parent"

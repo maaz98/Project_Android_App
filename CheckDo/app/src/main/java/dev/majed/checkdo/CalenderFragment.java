@@ -70,12 +70,7 @@ String DateStr = "";
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.flContent, newFragment);
                 transaction.addToBackStack(null);
-
-// Commit the transaction
                 transaction.commit();
-
-
-             
             }
         });
 

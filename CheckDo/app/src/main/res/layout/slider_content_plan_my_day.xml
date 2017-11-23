@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    app:cardElevation="10dp">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/event1"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/event_1_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/pic_1"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Today"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_1_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+
+                android:paddingRight="10dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/pic_2"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Later"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_1_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/pic_3"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Done"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_1_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/pic_4"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Delete"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/event2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/event_2_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:cropToPadding="true"
+                        app:srcCompat="@drawable/no_alaram"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="No Alarm"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event_2_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+
+                    android:paddingRight="10dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:adjustViewBounds="false"
+                        android:cropToPadding="true"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/today_9"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="Morning"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event_2_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:cropToPadding="true"
+                        app:srcCompat="@drawable/today_12"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="Noon"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event_2_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:cropToPadding="true"
+                        app:srcCompat="@drawable/today_4"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="Afternoon"
+                        android:textSize="16sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event_2_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:cropToPadding="true"
+                        app:srcCompat="@drawable/today_7"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="Evening"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event_2_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:cropToPadding="true"
+                        app:srcCompat="@drawable/today_10"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="Night"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/event_2_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingBottom="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="20dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="72dp"
+                        android:cropToPadding="true"
+                        app:srcCompat="@drawable/set_time_today"/>
+
+                    <TextView
+                        android:layout_width="71dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="7dp"
+                        android:text="Custom"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:id="@+id/event3"
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/later_tomorrow"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Tomorrow"
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+
+                android:paddingTop="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/later_twodays"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="In 2 Days"
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/later_next_week"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.31"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Next Week"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:cropToPadding="true"
+                    app:srcCompat="@drawable/later_set_date"/>
+
+                <TextView
+                    android:layout_width="71dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="7dp"
+                    android:text="Set Date"
+                    android:textSize="15sp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,12 +31,16 @@ import android.widget.TimePicker;
 import com.wunderlist.slidinglayer.SlidingLayer;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import io.paperdb.Paper;
 
 import static dev.majed.checkdo.MainData.adapter;
 import static dev.majed.checkdo.MainData.allArrayList;
+import static dev.majed.checkdo.MainData.deleteTask;
 import static dev.majed.checkdo.MainData.fetch;
-import static dev.majed.checkdo.MainData.removeAllChecked;
+import static dev.majed.checkdo.MainData.notifyDataChanged;
 import static dev.majed.checkdo.MainData.save;
 
 
@@ -51,15 +56,15 @@ public class CreateAList extends AppCompatActivity  {
     RecyclerView checkedListRecyclerView;
     EditText editText;
     SlidingLayer slidingLayer;
-
-    Button button;
-
+     public static String UID="user_Id";
+     Button button;
+    public static ArrayList<Long> checked=new ArrayList<>();
    public static TaskAdapter tadp;
    public static ExListAdapter exListAdapter;
     boolean isTimeSorted = true;
     public static Context ctx;
     int Indx;
-
+    ArrayList<SingleEntry> AllList;
     Button okButton;
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
@@ -88,9 +93,16 @@ public class CreateAList extends AppCompatActivity  {
         recyclerView=(RecyclerView) findViewById(R.id.list);
         fab=(FloatingActionButton)findViewById(R.id.floatingActionButton);
         slidingLayer=(SlidingLayer)findViewById(R.id.slidingLayer);
+
         editText=(EditText)findViewById(R.id.editText);
         okButton = (Button)findViewById(R.id.okButton);
 
+         AllList = new ArrayList<>();
+        for(int i=0;i<allArrayList.size();i++){
+            for(int j=0;j<allArrayList.get(i).getItemList().size();j++){
+                AllList.add(allArrayList.get(i).getItemList().get(j));
+            }
+        }
        okButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -103,8 +115,11 @@ public class CreateAList extends AppCompatActivity  {
                     String taskName = editText.getText().toString();
                     Long taskId=TaskTime;
                     SingleEntry singleEntry=new SingleEntry(taskName, TaskTime,taskId);
+                    if(index!=9999)
+                    {
                     int pos= allArrayList.get(index).getItemList().size();
                     allArrayList.get(index).getItemList().add(singleEntry);
+
                     save();
                     //int pos =  getAllArrayList().get(index).getItemList().indexOf(singleEntry);
 
@@ -116,6 +131,9 @@ public class CreateAList extends AppCompatActivity  {
                     exListAdapter.notifyDataSetChanged();
                     exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),getApplicationContext(),index);
                     expandableListView.setAdapter(exListAdapter);
+                        callToSetTime (taskId,index,pos);
+                    }
+
                     // the user is done typing.
                    /* exListAdapter= new ExListAdapter(superList.arrayList.get(index).itemList,getApplicationContext(),index);
                     expandableListView.setAdapter(exListAdapter);*/
@@ -124,39 +142,70 @@ public class CreateAList extends AppCompatActivity  {
                     SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
                     String dateText = df2.format(d);
                     superList.saveChildEventTaskDay(index,taskId,dateText);*/
-                    callToSetTime (taskId,index,pos);
                 }
             }
         });
 
+if(index!=9999) {
+    SampleListAdapter adapter = new SampleListAdapter(this, SampleTasks, imageId);
+    listView = (ListView) findViewById(R.id.SampleTaskList);
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            editText.setText(SampleTasks[position]);
+        }
+    });
+    listView.setAdapter(adapter);
 
-        SampleListAdapter adapter = new SampleListAdapter(this, SampleTasks, imageId);
-        listView=(ListView)findViewById(R.id.SampleTaskList);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                editText.setText(SampleTasks[position]);
-             }
-        });
-        listView.setAdapter(adapter);
+    tadp = new TaskAdapter(allArrayList.get(index).getItemList(), index);
+    recyclerView.setAdapter(tadp);
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+    recyclerView.setLayoutManager(linearLayoutManager);
 
-        tadp = new TaskAdapter( allArrayList.get(index).getItemList(),index);
-        recyclerView.setAdapter(tadp);
-        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+    fab.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            slidingLayer.openLayer(true);
+        }
+    });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                slidingLayer.openLayer(true);
-            }
-        });
+    exListAdapter = new ExListAdapter(allArrayList.get(index).getItemList(), this, index);
+    expandableListView.setAdapter(exListAdapter);
 
-        exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),this,index);
-        expandableListView.setAdapter(exListAdapter);
+    expandableListView.setVisibility(View.VISIBLE);
+    recyclerView.setVisibility(View.INVISIBLE);
 
-        expandableListView.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.INVISIBLE);
+}
+else{
+    SampleListAdapter adapter = new SampleListAdapter(this, SampleTasks, imageId);
+    listView = (ListView) findViewById(R.id.SampleTaskList);
+    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            editText.setText(SampleTasks[position]);
+        }
+    });
+    listView.setAdapter(adapter);
+
+   // tadp = new TaskAdapter(allArrayList.get(index).getItemList(), index);
+  //  recyclerView.setAdapter(tadp);
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+    recyclerView.setLayoutManager(linearLayoutManager);
+
+    fab.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            slidingLayer.openLayer(true);
+        }
+    });
+fab.setVisibility(View.INVISIBLE);
+
+    exListAdapter = new ExListAdapter(AllList, this, 9999);
+    expandableListView.setAdapter(exListAdapter);
+
+    expandableListView.setVisibility(View.VISIBLE);
+    recyclerView.setVisibility(View.INVISIBLE);
+}
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,8 +216,28 @@ public class CreateAList extends AppCompatActivity  {
 
             }
         });
+
+        final SlidingLayer slidingLayer = (SlidingLayer) findViewById(R.id.slidingLayer);
+
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+        Paper.init(this);
+
+
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slidingLayer.openLayer(true);
+            }
+        });
+
     }
   //AddSetTimeMethodHere
+
 
   private void callToSetTime(Long id, final int index,  final int pos) {
       final String dateStr ="";
@@ -187,7 +256,7 @@ public class CreateAList extends AppCompatActivity  {
                       }
 
                       TimePickerDialog dialog2 = null;
-                      TimePickerDialog.OnTimeSetListener listener= new TimePickerDialog.OnTimeSetListener() {
+                      TimePickerDialog.OnTimeSetListener listener=new TimePickerDialog.OnTimeSetListener() {
                           @Override
                           public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                              Long dateLong = allArrayList.get(Indx).getItemList().get(pos).getTaskTime();
@@ -209,6 +278,7 @@ public class CreateAList extends AppCompatActivity  {
 
                               Calendar calendar= Calendar.getInstance();
                               calendar.set(year,month,dayOfMonth,0,0,0);
+
                               //Date date = new Date(year,month,dayOfMonth);
                               SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
                               String dateText = df2.format(calendar.getTime());
@@ -223,8 +293,11 @@ public class CreateAList extends AppCompatActivity  {
                               adapter.notifyDataSetChanged();
                               tadp.notifyDataSetChanged();
                               exListAdapter.notifyDataSetChanged();
-                              exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),getApplicationContext(),index);
-                              expandableListView.setAdapter(exListAdapter);
+                              if(index!=9999){  exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),getApplicationContext(),index);}
+                              else{
+                                  exListAdapter = new ExListAdapter(AllList, getApplicationContext(), 9999);
+
+                              }                              expandableListView.setAdapter(exListAdapter);
                               finalDialog.show();
                           }
                       });
@@ -234,24 +307,6 @@ public class CreateAList extends AppCompatActivity  {
 
 
   }
-
-
-
-    /*void setTime(Long id){
-        callToSetTime();
-        Log.e("thisIsTime1", time1);
-        *//*for(int i=0;i<superList.arrayList.get(index).getItemList().size();i++){
-            if(superList.arrayList.get(index).getItemList().get(i).getTaskId().equals(id)){
-                superList.arrayList.get(index).getItemList().get(i).setTaskDay(time1);
-            }
-
-        }*//*
-        Log.e("timeSetted",String.valueOf(time1));
-    }*/
-   // @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-
-   //AddSetTimeMethodHere.
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -289,13 +344,26 @@ public class CreateAList extends AppCompatActivity  {
              return true;
         }
         if(id==R.id.clear){
-            removeAllChecked(Indx);
-            exListAdapter.notifyDataSetChanged();
+            //removeAllChecked(Indx,checked);
+            for(int i=0;i<checked.size();i++){
+            deleteTask(Indx,checked.get(i));}
+            checked=new ArrayList<>();
+            save();
+            notifyDataChanged();
+          /* if(tadp!=null)*/ tadp.notifyDataSetChanged();
+          /* if(exListAdapter!=null) */exListAdapter.notifyDataSetChanged();
+          if(index!=9999){  exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),this,index);}
+            else{
+              exListAdapter = new ExListAdapter(AllList, this, 9999);
+
+          }
+            expandableListView.setAdapter(exListAdapter);
+           /* exListAdapter.notifyDataSetChanged();
             tadp.notifyDataSetChanged();
             exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),getApplicationContext(),index);
             expandableListView.setAdapter(exListAdapter);
             tadp = new TaskAdapter( allArrayList.get(index).getItemList(),index);
-            recyclerView.setAdapter(tadp);
+            recyclerView.setAdapter(tadp);*/
         }
         return super.onOptionsItemSelected(item);
     }
@@ -309,16 +377,15 @@ public class CreateAList extends AppCompatActivity  {
        /*exListAdapter= new ExListAdapter(superList.arrayList.get(index).itemList,ctx,index);
        expandableListView.setAdapter(exListAdapter);*/
    }
+
    public static void setTaskChecked(int index,int pos,boolean isChecked){
        allArrayList.get(index).getItemList().get(pos).setDone(isChecked);
        adapter.notifyDataSetChanged();
        exListAdapter.notifyDataSetChanged();
        tadp.notifyDataSetChanged();
        save();
-
-     /*  exListAdapter= new ExListAdapter(superList.arrayList.get(index).itemList,ctx,index);
-       expandableListView.setAdapter(exListAdapter);*/
    }
+
     String[] SampleTasks = {
             "Call",
             "read",
@@ -337,5 +404,10 @@ public class CreateAList extends AppCompatActivity  {
             R.drawable.pay,
             R.drawable.remind
     };
+
+
+
+
+
 
 }

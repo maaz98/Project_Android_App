@@ -70,7 +70,11 @@
     <string name="calendars">Calendars</string>
     <string name="error_location">Unable to determine your location</string>
     <string name="title_activity_create_new_list">CreateNewList</string>
-    <string name="forgot_password_click_here">Forgot password? Click here..</string>
+
+    <string name="title_activity_plan_my_day">PlanMyDayActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_list_ui">ListUI</string>
 
 
 </resources>

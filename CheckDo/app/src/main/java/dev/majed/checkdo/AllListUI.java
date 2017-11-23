@@ -24,6 +24,8 @@ import com.wunderlist.slidinglayer.SlidingLayer;
 import java.util.ArrayList;
 
 import static dev.majed.checkdo.MainData.allArrayList;
+import static dev.majed.checkdo.MainData.notifyDataChanged;
+import static dev.majed.checkdo.MainData.save;
 
 
 public class AllListUI extends AppCompatActivity {
@@ -35,14 +37,12 @@ public class AllListUI extends AppCompatActivity {
     static ExpandableListView expandableListView;
     FloatingActionButton fab;
     SlidingLayer slidingLayer;
-
-
-
     static TaskAdapter tadp;
     static ExListAdapter exListAdapter;
     Button button;
     boolean isTimeSorted = false;
     public static Context ctx;
+    ArrayList<SingleEntry> AllList;
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,7 @@ public class AllListUI extends AppCompatActivity {
         fab=(FloatingActionButton)findViewById(R.id.floatingActionButton);
         slidingLayer=(SlidingLayer)findViewById(R.id.slidingLayer);
         editText=(EditText)findViewById(R.id.editText);
-         ArrayList<SingleEntry> AllList=new ArrayList();
+         AllList=new ArrayList();
 
         for(int j=0;j< allArrayList.size();j++){
         for(int i=0;i< allArrayList.get(j).getItemList().size();i++){
@@ -137,11 +137,40 @@ public class AllListUI extends AppCompatActivity {
             // moveToUserProfile();
             return true;
         }
+        if(id==R.id.clear){
+            //removeAllChecked(Indx,checked);
+           /* for(int i=0;i<checked.size();i++){
+                deleteTask(Indx,checked.get(i));}
+            checked=new ArrayList<>();*/
+            save();
+            notifyDataChanged();
+            tadp.notifyDataSetChanged();
+            exListAdapter.notifyDataSetChanged();
+           // exListAdapter = new ExListAdapter( AllList,this,9999);
+            expandableListView.setAdapter(exListAdapter);
+            if(index==9999){
+                updateAllList();
+                exListAdapter= new ExListAdapter(AllList,this,9999);
+                expandableListView.setAdapter(exListAdapter);
+            }
+           /* exListAdapter.notifyDataSetChanged();
+            tadp.notifyDataSetChanged();
+            exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),getApplicationContext(),index);
+            expandableListView.setAdapter(exListAdapter);
+            tadp = new TaskAdapter( allArrayList.get(index).getItemList(),index);
+            recyclerView.setAdapter(tadp);*/
+        }
         return super.onOptionsItemSelected(item);
     }
 
 
 
+public void updateAllList(){
+    for(int j=0;j< allArrayList.size();j++){
+        for(int i=0;i< allArrayList.get(j).getItemList().size();i++){
+            AllList.add(allArrayList.get(j).getItemList().get(i));
+        }}
 
+}
 
 }

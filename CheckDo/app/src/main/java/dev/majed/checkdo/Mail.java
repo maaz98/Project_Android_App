@@ -27,16 +27,22 @@ public class Mail extends AsyncTask<Void,Void,Void> {
     private String subject;
     private String message;
 
+    private String EMAIL;
+    private String PASSWORD;
+
+
     //Progress dialog to show while sending email
     private ProgressDialog progressDialog;
 
     //Class Constructor
-    public Mail(Context context, String email, String subject, String message){
+    public Mail(Context context, String email, String subject, String message, String EMAIL, String PASSWORD){
         //Initializing variables
         this.context = context;
         this.email = email;
         this.subject = subject;
         this.message = message;
+        this.EMAIL = EMAIL;
+        this.PASSWORD = PASSWORD;
     }
 
     @Override
@@ -67,7 +73,7 @@ public class Mail extends AsyncTask<Void,Void,Void> {
                 new javax.mail.Authenticator() {
                     //Authenticating the password
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(config.EMAIL, config.PASSWORD);
+                        return new PasswordAuthentication(EMAIL, PASSWORD);
                     }
                 });
 
@@ -76,7 +82,8 @@ public class Mail extends AsyncTask<Void,Void,Void> {
             MimeMessage mm = new MimeMessage(session);
 
             //Setting sender address
-            mm.setFrom(new InternetAddress(config.EMAIL));
+           if(EMAIL!=null)
+           { mm.setFrom(new InternetAddress(EMAIL));
             //Adding receiver
             mm.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             //Adding subject
@@ -87,7 +94,7 @@ public class Mail extends AsyncTask<Void,Void,Void> {
             //Sending email
             Transport.send(mm);
 
-        } catch (MessagingException e) {
+        }} catch (MessagingException e) {
             e.printStackTrace();
         }
         return null;

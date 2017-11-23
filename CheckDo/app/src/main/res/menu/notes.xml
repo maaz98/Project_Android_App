@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="My Profile"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_plan"
+        android:orderInCategory="100"
+        android:title="Plan My Day"
+        app:showAsAction="never" />
 </menu>

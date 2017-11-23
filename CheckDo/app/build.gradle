@@ -26,17 +26,22 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //compile 'com.google.android.gms:play-services-auth:9.8.0'
-    
 
     compile 'com.android.support:design:26.0.1'
+    compile 'com.orhanobut:hawk:2.0.1'
+
+    /*  compile 'com.google.firebase:firebase-database:9.0.0'*/
+    compile 'com.android.support:design:26.0.1'
+    compile 'com.sackcentury:shinebutton:0.1.9'
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
     compile 'io.paperdb:paperdb:2.6'
     compile 'me.nlmartian.silkcal:library:0.1.1'
-    compile 'com.android.support:design:26.0.1'
     compile 'co.infinum:materialdatetimepicker-support:3.3.0'
     compile 'com.android.support:support-v4:26.0.1'
     compile 'com.android.support:support-v13:26.0.1'
     compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.firebase:firebase-auth:9.0.0'
     compile 'com.google.android.gms:play-services-auth:9.0.0'
     compile 'com.sun.mail:android-mail:1.5.5'
     compile 'com.sun.mail:android-activation:1.5.5'

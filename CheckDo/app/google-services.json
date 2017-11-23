@@ -1,72 +1,35 @@
 {
   "project_info": {
-    "project_number": "408716073533",
-    "project_id": "checkdo-179823"
+    "project_number": "248635651246",
+    "firebase_url": "https://checkdo-30670.firebaseio.com",
+    "project_id": "checkdo-30670",
+    "storage_bucket": "checkdo-30670.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:408716073533:android:934c5d6b8c3b1fd4",
-        "android_client_info": {
-          "package_name": "shado.checkdo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "408716073533-r8m3nmlaacocn9253020ji8t69mv6ock.apps.googleusercontent.com",
-          "client_type": 3
-        },
-        {
-          "client_id": "408716073533-iiri03jldgklapdr6ub2ts6f951i6ug6.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "shado.checkdo",
-            "certificate_hash": "35f9061ae46cf89bd571d0db06bac969217d0cd2"
-          }
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBPllKQexFABWhV_HcGBvS5NTp38n18G-U"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 1
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:408716073533:android:ef04fb964dca79dc",
+        "mobilesdk_app_id": "1:248635651246:android:ef04fb964dca79dc",
         "android_client_info": {
           "package_name": "dev.majed.checkdo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "408716073533-2ob6oteu3nvkf86jfda5f4lvckp6ko81.apps.googleusercontent.com",
+          "client_id": "248635651246-l8b7n7gpa42q2rejon06k85hgsin0rtc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "dev.majed.checkdo",
-            "certificate_hash": "35f9061ae46cf89bd571d0db06bac969217d0cd2"
+            "certificate_hash": "c19e9e21e909d5a47165851ee01310ad139cadeb"
           }
         },
         {
-          "client_id": "408716073533-r8m3nmlaacocn9253020ji8t69mv6ock.apps.googleusercontent.com",
+          "client_id": "248635651246-vo9bhrkjdjpeucd2pfns7ppvbnv3354r.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPllKQexFABWhV_HcGBvS5NTp38n18G-U"
+          "current_key": "AIzaSyCptI3y09DCVGlmVoExCPf9z8nxSc7gDLM"
         }
       ],
       "services": {
@@ -74,11 +37,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248635651246-vo9bhrkjdjpeucd2pfns7ppvbnv3354r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

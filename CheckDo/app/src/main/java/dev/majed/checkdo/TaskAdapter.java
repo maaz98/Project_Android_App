@@ -2,13 +2,18 @@ package dev.majed.checkdo;
 
 
 import android.content.Context;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.sackcentury.shinebuttonlib.ShineButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +32,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
     private ArrayList<SingleEntry> taskList;
     Context ctx;
     int a=0;
+    AddToIntrested addToIntrested;
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder  {
         TextView Title;
@@ -34,6 +41,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
         View mView;
         CheckBox checkBox;
         TextView timeOfTask;
+        ShineButton shineBtn;
 
         public MyViewHolder(final View itemView) {
             super(itemView);
@@ -42,7 +50,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
             this.bin=(ImageView)mView.findViewById(R.id.img);
             this.checkBox=(CheckBox) mView.findViewById(R.id.checkBtn);
             this.timeOfTask=(TextView)mView.findViewById(R.id.time);
+            this.shineBtn = (ShineButton)mView.findViewById(R.id.shineButton);
             ctx=mView.getContext();
+            addToIntrested=new AddToIntrested(ctx);
+
         }
     }
 
@@ -90,6 +101,28 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> 
             @Override
             public void onClick(View view) {
                 clicked(a,position);
+            }
+        });
+        final long TaskId = taskList.get(position).getTaskId();
+
+        if(addToIntrested.isEventAlreadyPresent(String.valueOf(TaskId))){
+            Log.e("RefreshFor",String.valueOf(TaskId));
+            holder.shineBtn.setChecked(true);
+
+        }
+        holder.shineBtn.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if(addToIntrested.isEventAlreadyPresent(String.valueOf(TaskId))){
+                    addToIntrested.remove(String.valueOf(TaskId));
+                }
+                else{
+                    Log.e("AddedFromsmall",String.valueOf(TaskId));
+                    //String d=(eventList.get(position).getEventDate());
+                    Date date = new Date(taskList.get(position).getTaskTime());
+                    addToIntrested.add(String.valueOf(TaskId),date,taskList.get(position).getTaskName());
+                }
             }
         });
     }

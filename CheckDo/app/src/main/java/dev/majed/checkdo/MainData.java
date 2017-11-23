@@ -4,9 +4,11 @@ package dev.majed.checkdo;
 import android.content.Context;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -46,6 +48,7 @@ public class MainData {
             allArrayList = new ArrayList<>();
         }
         checkedList = Paper.book().read("CheckedList");
+
     }
 
     public static void save(){
@@ -92,10 +95,13 @@ for(int i=0;i<singleList.size();i++){
     }
 
     public static void notifyDataChanged(){
-        exListAdapter.notifyDataSetChanged();
-        tadp.notifyDataSetChanged();
-        adapter.notifyDataSetChanged();
-
+        if(exListAdapter!=null){
+        exListAdapter.notifyDataSetChanged();}
+        if(tadp!=null){
+        tadp.notifyDataSetChanged();}
+        if(adapter!=null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     public static void setTaskChecked(int index,Long id,boolean isChecked) {
@@ -110,20 +116,68 @@ for(int i=0;i<singleList.size();i++){
     }
 
     public static void deleteTask(int index,Long id) {
+        if(index!=9999) {
+            for (int i = 0; i < allArrayList.get(index).getItemList().size(); i++) {
+                if (allArrayList.get(index).getItemList().get(i).getTaskId().equals(id)) {
+                    Log.e("removedName", allArrayList.get(index).getItemList().get(i).getTaskName());
+                    allArrayList.get(index).getItemList().remove(i);
+                }
+            }
+            save();
+            notifyDataChanged();
+        }
+        else{
+            for(int k=0;k<allArrayList.size();k++){
+            for (int i = 0; i < allArrayList.get(k).getItemList().size(); i++) {
+                if (allArrayList.get(k).getItemList().get(i).getTaskId().equals(id)) {
+                    Log.e("removedName", allArrayList.get(k).getItemList().get(i).getTaskName());
+                    allArrayList.get(k).getItemList().remove(i);
+                }
+            }
+        }
+            save();
+            notifyDataChanged();
+        }
+    }
+
+    public static void deleteTaskById(Long id) {
+        for(int index = 0; index < allArrayList.size();index++){
         for(int i=0;i<allArrayList.get(index).getItemList().size();i++){
             if(allArrayList.get(index).getItemList().get(i).getTaskId().equals(id)){
                 Log.e("removedName", allArrayList.get(index).getItemList().get(i).getTaskName());
-               allArrayList.get(index).getItemList().remove(i);
+                allArrayList.get(index).getItemList().remove(i);
+            }
+        }
+        }
+        save();
+        notifyDataChanged();
+
+    }
+    public static void ChangeTimeById(Long id,long newTime) {
+        for(int index = 0; index < allArrayList.size();index++){
+            for(int i=0;i<allArrayList.get(index).getItemList().size();i++){
+                if(allArrayList.get(index).getItemList().get(i).getTaskId().equals(id))
+                {
+                    Log.e("ChangedTimeTaskName", allArrayList.get(index).getItemList().get(i).getTaskName());
+                    allArrayList.get(index).getItemList().get(i).setTaskTime(newTime);
+                    Date d = new Date(newTime);
+                    SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+                    String dateText = df2.format(d);
+                    allArrayList.get(index).getItemList().get(i).setTaskDay(dateText);
+
+                }
             }
         }
         save();
         notifyDataChanged();
 
     }
+    public static void removeAllChecked(int index,ArrayList<Long> longArrayList) {
 
-    public static void removeAllChecked(int index) {
+        Log.e("ids",String.valueOf(longArrayList.size()));
+
         for(int i=0;i<allArrayList.get(index).getItemList().size();i++){
-            if(allArrayList.get(index).getItemList().get(i).getDone()){
+            if(longArrayList.contains(allArrayList.get(index).getItemList().get(i).getTaskId())){
                 allArrayList.get(index).getItemList().remove(i);
             }
         }

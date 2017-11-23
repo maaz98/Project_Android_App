@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:layout_width="match_parent" android:layout_height="80dp">
+    <LinearLayout
+        android:background="#66ddff00"
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="160dp"
+        android:weightSum="1"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        </LinearLayout>
+<LinearLayout
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
@@ -12,3 +22,6 @@
         android:textSize="18sp"
         android:layout_marginLeft="10dp"/>
 </LinearLayout>
+
+
+  </com.daimajia.swipe.SwipeLayout>

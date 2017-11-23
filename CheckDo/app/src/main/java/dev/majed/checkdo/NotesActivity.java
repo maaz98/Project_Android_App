@@ -143,7 +143,17 @@ public class NotesActivity extends AppCompatActivity
             moveToUserProfile();
             return true;
         }
+        else if (id == R.id.action_plan) {
+            moveToPlanMyDay();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void moveToPlanMyDay() {
+        Intent intent = new Intent(this, PlanMyDayActivity.class);  // intent to user Profile
+
+        startActivity(intent);
     }
 
 

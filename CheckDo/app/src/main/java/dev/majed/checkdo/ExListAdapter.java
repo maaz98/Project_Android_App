@@ -2,6 +2,8 @@ package dev.majed.checkdo;
 
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +13,15 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static dev.majed.checkdo.CreateAList.checked;
 import static dev.majed.checkdo.CreateAList.exListAdapter;
 import static dev.majed.checkdo.CreateAList.expandableListView;
 import static dev.majed.checkdo.CreateAList.tadp;
@@ -35,12 +40,15 @@ public class ExListAdapter extends BaseExpandableListAdapter {
     private ArrayList<SingleEntry> tomorrow;
     private ArrayList<SingleEntry> upcoming;
 
+
+
     String dateTextToday;
     String dateTextTomorrow;
 
     private int[] NumArr;
     Context context;
     private int index=0;
+    final AddToIntrested addToIntrested;
 
      ExListAdapter(ArrayList<SingleEntry> taskList, Context context,int index){
        this.taskList=new ArrayList<>();
@@ -48,6 +56,7 @@ public class ExListAdapter extends BaseExpandableListAdapter {
        this.context=context;
        this.index=index;
 
+         addToIntrested=new AddToIntrested(context);
 
          Date date = new Date();
          SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
@@ -132,7 +141,6 @@ public class ExListAdapter extends BaseExpandableListAdapter {
     public String getChild(int groupPosition, int childPosition) {
        return  sortedList.get(groupPosition).get(childPosition).getTaskName();}
 
-
     @Override
     public long getGroupId(int groupPosition) {
 
@@ -185,7 +193,10 @@ public class ExListAdapter extends BaseExpandableListAdapter {
 
         final TextView timeOfTasks = (TextView)convertView.findViewById(R.id.time);
         final ImageView bin = (ImageView)convertView.findViewById(R.id.img);
+        final ImageView attatchment = (ImageView)convertView.findViewById(R.id.attatch);
+
         final CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.checkBtn);
+        final ShineButton shineButton = (ShineButton) convertView.findViewById(R.id.shineButton);
         if(sortedList.get(groupPosition).get(childPosition).getDone()){
             //convertView.setAlpha((float) 0.5);
             checkBox.setChecked(true);
@@ -223,11 +234,44 @@ public class ExListAdapter extends BaseExpandableListAdapter {
              expandableListView.setAdapter(exListAdapter);
          }
      });
+        attatchment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               /* Long id= getChildId(groupPosition,childPosition);
+                Intent intent = new Intent(context,AddAttatchment.class);
+                intent.putExtra("id",id);
+                context.startActivity(intent);*/
+            }
+        });
+        final long TaskId = sortedList.get(groupPosition).get(childPosition).getTaskId();
+        if(addToIntrested.isEventAlreadyPresent(String.valueOf(TaskId))){
+            Log.e("RefreshFor",String.valueOf(TaskId));
+            shineButton.setChecked(true);
+
+        }
+        shineButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if(addToIntrested.isEventAlreadyPresent(String.valueOf(TaskId))){
+                    addToIntrested.remove(String.valueOf(TaskId));
+                }
+                else{
+                    Log.e("AddedFromsmall",String.valueOf(TaskId));
+                    //String d=(eventList.get(position).getEventDate());
+                    Date date = new Date(sortedList.get(groupPosition).get(childPosition).getTaskTime());
+                    addToIntrested.add(String.valueOf(TaskId),date,sortedList.get(groupPosition).get(childPosition).getTaskName());
+                }
+            }
+        });
+
         return convertView;
     }
 
     private void clicked(long id) {
-        for(int j=0;j<allArrayList.get(index).getItemList().size();j++)
+
+        checked.add(id);
+       /* for(int j=0;j<allArrayList.get(index).getItemList().size();j++)
         { if(allArrayList.get(index).getItemList().get(j).getTaskId().equals(id)){
             if(allArrayList.get(index).getItemList().get(j).getDone()){
                 allArrayList.get(index).getItemList().get(j).setDone(false);
@@ -240,8 +284,8 @@ public class ExListAdapter extends BaseExpandableListAdapter {
         save();
         notifyDataChanged();
         tadp.notifyDataSetChanged();
-        /*exListAdapter.notifyDataSetChanged();
-        exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),context,index);
+        exListAdapter.notifyDataSetChanged();*/
+       /* exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),context,index);
         expandableListView.setAdapter(exListAdapter);*/
     }
 
