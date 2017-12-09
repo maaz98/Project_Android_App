@@ -87,8 +87,8 @@ public class AllListUI extends AppCompatActivity {
         exListAdapter= new ExListAdapter(AllList,this,9999);
         expandableListView.setAdapter(exListAdapter);
 
-        expandableListView.setVisibility(View.INVISIBLE);
-        listView.setVisibility(View.VISIBLE);
+        expandableListView.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.INVISIBLE);
         //listView.
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +132,6 @@ public class AllListUI extends AppCompatActivity {
                 listView.setVisibility(View.INVISIBLE);
                 isTimeSorted=true;
                 item.setTitle("Sort by : List");
-
             }
             // moveToUserProfile();
             return true;

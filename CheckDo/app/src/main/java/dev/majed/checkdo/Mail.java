@@ -3,6 +3,7 @@ package dev.majed.checkdo;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.util.Properties;
 
@@ -80,6 +81,10 @@ public class Mail extends AsyncTask<Void,Void,Void> {
         try {
             //Creating MimeMessage object
             MimeMessage mm = new MimeMessage(session);
+
+            if(EMAIL==null||PASSWORD==null){
+                Toast.makeText(context, "Connection problem.", Toast.LENGTH_SHORT).show();
+            }
 
             //Setting sender address
            if(EMAIL!=null)

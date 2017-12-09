@@ -22,6 +22,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 
+import static dev.majed.checkdo.LoginActivity.EMAIL;
+import static dev.majed.checkdo.LoginActivity.PASSWORD;
+
 public class RegisterActivity extends AppCompatActivity implements Serializable {
 
 
@@ -63,8 +66,8 @@ public class RegisterActivity extends AppCompatActivity implements Serializable 
                 }
             }
         });
-    emailStr = config.EMAIL;
-    passwordStr = config.PASSWORD;
+    emailStr = EMAIL;
+    passwordStr = PASSWORD;
     }
 
         /*final DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();

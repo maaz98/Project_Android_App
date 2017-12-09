@@ -1,6 +1,7 @@
 package dev.majed.checkdo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -228,7 +229,7 @@ public class ExListAdapter extends BaseExpandableListAdapter {
              deleteTask(index,id);
              save();
              notifyDataChanged();
-             tadp.notifyDataSetChanged();
+            if(tadp!=null) tadp.notifyDataSetChanged();
              exListAdapter.notifyDataSetChanged();
              exListAdapter = new ExListAdapter( allArrayList.get(index).getItemList(),context,index);
              expandableListView.setAdapter(exListAdapter);
@@ -237,10 +238,10 @@ public class ExListAdapter extends BaseExpandableListAdapter {
         attatchment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Long id= getChildId(groupPosition,childPosition);
+                Long id= getChildId(groupPosition,childPosition);
                 Intent intent = new Intent(context,AddAttatchment.class);
                 intent.putExtra("id",id);
-                context.startActivity(intent);*/
+                context.startActivity(intent);
             }
         });
         final long TaskId = sortedList.get(groupPosition).get(childPosition).getTaskId();

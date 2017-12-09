@@ -12,5 +12,9 @@
         android:orderInCategory="100"
         android:title="Clear completed"
         app:showAsAction="never" />
-
+    <item
+        android:id="@+id/share"
+        android:orderInCategory="100"
+        android:title="Share"
+        app:showAsAction="never" />
 </menu>

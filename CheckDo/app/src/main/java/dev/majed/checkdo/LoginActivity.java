@@ -1,5 +1,6 @@
 package dev.majed.checkdo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,8 +32,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class LoginActivity extends AppCompatActivity  implements
@@ -49,19 +58,51 @@ public class LoginActivity extends AppCompatActivity  implements
     private String emailStr;
     private String passwordStr;
     public static Context ctxx;
-
-
+    ProgressDialog pDialog;
+    public static  String EMAIL;
+    public static  String PASSWORD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        final Fabric fabric = new Fabric.Builder(this)
+                .kits(new Crashlytics())
+                .debuggable(true)
+                .build();
+        Fabric.with(fabric);
         mEmailView = (EditText) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         ctxx=getApplicationContext();
         MainData mainData = new MainData(getApplicationContext());
 
+        pDialog=new ProgressDialog(this);
+        pDialog.setMessage("Please wait...");
+        DatabaseReference mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("data");
+         mDatabaseReference.child("email").addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(DataSnapshot dataSnapshot) {
+               EMAIL =  dataSnapshot.getValue().toString();
+             }
+
+             @Override
+             public void onCancelled(DatabaseError databaseError) {
+
+             }
+         });
+
+         mDatabaseReference.child("password").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                PASSWORD =  dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
  /*       final DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
         mRef.child("data").addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,8 +118,8 @@ public class LoginActivity extends AppCompatActivity  implements
 
             }
         });*/
-        emailStr = config.EMAIL;
-        passwordStr = config.PASSWORD;
+        emailStr = EMAIL;
+        passwordStr = PASSWORD;
         // Configure SignIn
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -114,6 +155,7 @@ public class LoginActivity extends AppCompatActivity  implements
         googleSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                pDialog.show();
                signIn();
               //  logInWithGoogle();
             }
@@ -144,10 +186,10 @@ public class LoginActivity extends AppCompatActivity  implements
 
         });
 
-        mEmailView.setText("a@q.com");
+      /* mEmailView.setText("a@q.com");
         mPasswordView.setText("123456789");
         mEmailSignInButton.performClick();
-
+*/
     }
 
 
@@ -196,7 +238,7 @@ public class LoginActivity extends AppCompatActivity  implements
                             updateUI(null);
                         }
 
-                        //  hideProgressDialog();
+                        pDialog.dismiss();
                     }
 
 

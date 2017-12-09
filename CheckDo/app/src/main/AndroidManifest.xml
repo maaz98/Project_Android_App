@@ -10,6 +10,8 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -64,15 +66,19 @@
             android:exported="false">
         </service>
 
-        <activity android:name=".googleSignIn">
-        </activity>
-        <activity android:name=".AddAttatchment">
+
+        <activity android:name=".AddAttatchment"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name="dev.majed.checkdonew.ListUI"
             android:label="@string/title_activity_list_ui"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="900f3e56e0508b500960a4b457cd22744e7dd426"
+            />
     </application>
 
 </manifest>

@@ -12,16 +12,21 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class NotesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -35,6 +40,7 @@ public class NotesActivity extends AppCompatActivity
     private TextView mTextMessage;
     FragmentTransaction transaction;
     Fragment fragment;
+    DatabaseReference mDatabase;
 
      @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
 
@@ -55,15 +61,29 @@ public class NotesActivity extends AppCompatActivity
         tv_name = (TextView) header.findViewById(R.id.name);
         tv_email = (TextView) header.findViewById(R.id.email);
 
+        mDatabase= FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("key").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.getValue().toString().equals("ok")){
+                    Toast.makeText(NotesActivity.this,dataSnapshot.getValue().toString(), Toast.LENGTH_LONG).show();
+                    finish();
 
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        /*ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
+        drawer.setDrawerListener(toggle);*/
+       /* toggle.syncState();
+*/
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -79,7 +99,9 @@ public class NotesActivity extends AppCompatActivity
         transaction.replace(R.id.flContent, fragment);
         transaction.commit();
         if(getIntent().getStringExtra("keyTo").compareTo("firstOpen")==0){
-            Intent intent = new Intent(this,AllListUI.class);
+            Intent intent = new Intent(this, CreateAList.class);
+            intent.putExtra("title", "ALL");
+            intent.putExtra("index", 9999);
             startActivity(intent);
         }
  /*    ArrayList<SingleEntry> thisList=  makeCalenderlist();*/
@@ -218,9 +240,7 @@ public class NotesActivity extends AppCompatActivity
                       transaction.commit();
                      return true;
 
-                case R.id.navigation_notifications:
-                  //  mTextMessage.setText(R.string.title_notifications);
-                    return true;
+
             }
             return false;
         }

@@ -33,6 +33,7 @@ import com.wunderlist.slidinglayer.SlidingLayer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import io.paperdb.Paper;
 
@@ -312,6 +313,9 @@ fab.setVisibility(View.INVISIBLE);
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.choice, menu);
+        if(index==9999){
+            menu.getItem(2).setVisible(false);
+        }
         return true;
     }
 
@@ -343,7 +347,7 @@ fab.setVisibility(View.INVISIBLE);
 
              return true;
         }
-        if(id==R.id.clear){
+       else if(id==R.id.clear){
             //removeAllChecked(Indx,checked);
             for(int i=0;i<checked.size();i++){
             deleteTask(Indx,checked.get(i));}
@@ -365,10 +369,31 @@ fab.setVisibility(View.INVISIBLE);
             tadp = new TaskAdapter( allArrayList.get(index).getItemList(),index);
             recyclerView.setAdapter(tadp);*/
         }
+        else if(id==R.id.share){
+            if(index!=9999){shareIntent(allArrayList.get(index));}
+            else{item.setVisible(false);}
+        }
         return super.onOptionsItemSelected(item);
     }
 
-   public static void DeleteTask(int index, int pos){
+    private void shareIntent(MyList myList) {
+        String sharableText="";
+        sharableText +="List:"+ myList.getItemName();
+        sharableText += "\n \n";
+        for(int i=0;i<myList.getItemList().size();i++){
+            Date d = new Date(myList.getItemList().get(i).getTaskTime());
+            SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy hh:mm aaa");
+            String dateText = df2.format(d);
+            sharableText += "Task "+(i+1)+": "+myList.getItemList().get(i).getTaskName()+"     "+" Due on:"+dateText+"\n";
+        }
+        sharableText+="\nShared by Check.Do";
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/*");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, sharableText);
+        startActivity(Intent.createChooser(sharingIntent,"Share using"));
+    }
+
+    public static void DeleteTask(int index, int pos){
        allArrayList.get(index).getItemList().remove(pos);
         adapter.notifyDataSetChanged();
         exListAdapter.notifyDataSetChanged();

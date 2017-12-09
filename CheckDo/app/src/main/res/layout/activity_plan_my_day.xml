@@ -67,10 +67,11 @@
                 android:id="@+id/task_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_below="@+id/task_title"
                 android:text="12:00 AM"
-                android:textSize="26sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
+                android:textColor="@color/blue500"
                 />
         </RelativeLayout>
 
